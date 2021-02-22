@@ -11,9 +11,10 @@ function getTodos() {
   //     _limit: 5
   //   }
   // })
-  //   .then(res => showOutput(res))
-  //   .catch(err => console.error(err));
+  // .then(res => showOutput(res))
+  // .catch(err => console.error(err));
 
+  // ---- OR ------
   axios
     .get('https://jsonplaceholder.typicode.com/todos?_limit=5', {
       timeout: 5000
@@ -24,11 +25,22 @@ function getTodos() {
 
 // POST REQUEST
 function addTodo() {
+  // axios({
+  //   method: 'post',
+  //   url: 'https://jsonplaceholder.typicode.com/todos',
+  //   data: {
+  //     title: 'New ToDO list',
+  //     completed: false
+  //   }
+  // })
+  // .then(res => showOutput(res))
+  // .catch(err => console.error(err));
+
+  // --- OR ---
   axios
     .post('https://jsonplaceholder.typicode.com/todos', {
-      title: 'New Todo',
-      completed: false
-    })
+      title: 'New ToDO list',
+      completed: false })
     .then(res => showOutput(res))
     .catch(err => console.error(err));
 }
@@ -37,9 +49,8 @@ function addTodo() {
 function updateTodo() {
   axios
     .patch('https://jsonplaceholder.typicode.com/todos/1', {
-      title: 'Updated Todo',
-      completed: true
-    })
+      title: 'New PUT list',
+      completed: false })
     .then(res => showOutput(res))
     .catch(err => console.error(err));
 }
@@ -54,11 +65,16 @@ function removeTodo() {
 
 // SIMULTANEOUS DATA
 function getData() {
-  axios
-    .all([
-      axios.get('https://jsonplaceholder.typicode.com/todos?_limit=5'),
-      axios.get('https://jsonplaceholder.typicode.com/posts?_limit=5')
-    ])
+  axios.all([
+    axios.get('https://jsonplaceholder.typicode.com/todos?_limit=5'),
+    axios.get('https://jsonplaceholder.typicode.com/posts?_limit=5')
+  ])
+
+    // .then(res => {
+    //   console.log(res[0]);
+    //   console.log(res[1]);
+    //   showOutput(res[1]);
+    // })
     .then(axios.spread((todos, posts) => showOutput(posts)))
     .catch(err => console.error(err));
 }
@@ -73,12 +89,9 @@ function customHeaders() {
   };
 
   axios
-    .post(
-      'https://jsonplaceholder.typicode.com/todos',
-      {
+    .post('https://jsonplaceholder.typicode.com/todos', {
         title: 'New Todo',
-        completed: false
-      },
+        completed: false },
       config
     )
     .then(res => showOutput(res))
@@ -166,12 +179,14 @@ axios.interceptors.request.use(
   }
 );
 
+
 // AXIOS INSTANCE
 const axiosInstance = axios.create({
   // Other custom settings
   baseURL: 'https://jsonplaceholder.typicode.com'
 });
 // axiosInstance.get('/comments').then(res => showOutput(res));
+
 
 // Show output in browser
 function showOutput(res) {
